@@ -67,19 +67,23 @@ export default function Home({resultData , testimonialResult, responseCompanyDat
 
 // Fetch data from our fake server build with json and getStaticProps
 
-export const getStaticProps = async () => {
-  const requestData = await fetch('http://localhost:3000/api/corouselData')
-  const resultData = await requestData.json()
-  const testimonialRequest = await fetch('http://localhost:3000/api/testimonialData')
-  const testimonialResult = await testimonialRequest.json()
-  const requestCompanyData = await fetch('http://localhost:3000/api/companyData')
-  const responseCompanyData = await requestCompanyData.json()
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  return {
-    props: {
-      resultData,
-      testimonialResult,
-      responseCompanyData
-    }
-  }
-}
+export const getStaticProps = async () => {
+    const requestData = await fetch(`${baseUrl}/api/corouselData`);
+    const resultData = await requestData.json();
+
+    const testimonialRequest = await fetch(`${baseUrl}/api/testimonialData`);
+    const testimonialResult = await testimonialRequest.json();
+
+    const requestCompanyData = await fetch(`${baseUrl}/api/companyData`);
+    const responseCompanyData = await requestCompanyData.json();
+
+    return {
+        props: {
+            resultData,
+            testimonialResult,
+            responseCompanyData
+        }
+    };
+};
